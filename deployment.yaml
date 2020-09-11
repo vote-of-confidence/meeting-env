@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meeting-deployment
+  labels:
+    app: meeting
+    version: COMMIT_SHA
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meeting
+  template:
+    metadata:
+      labels:
+        app: meeting
+        version: COMMIT_SHA
+    spec:
+      containers:
+        - name: meeting
+          image: eu.gcr.io/GOOGLE_CLOUD_PROJECT/voc-meeting:COMMIT_SHA
+          envFrom:
+            - configMapRef:
+                name: meeting-configmap
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+          volumeMounts:
+            - mountPath: /etc/deployment/application.yaml
+              name: config-volume
+              readOnly: true
+              subPath: application.yaml
+      volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+              - key: application.yaml
+                path: application.yaml
+            name: meeting-configmap
+          name: config-volume
