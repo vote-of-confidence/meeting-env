@@ -51,7 +51,7 @@ spec:
       - envFrom:
         - configMapRef:
             name: meeting-configmap-kb7744f4cb
-        image: eu.gcr.io/vote-of-confidence-233210/meeting@1cf65fc
+        image: eu.gcr.io/vote-of-confidence-233210/meeting:1cf65fc
         name: meeting
         ports:
         - containerPort: 8080
