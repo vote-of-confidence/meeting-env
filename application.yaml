@@ -1,6 +1,6 @@
 spring:
   application:
-    name: voc-meeting-service
+    name: meeting
 
 server:
   port: 8080

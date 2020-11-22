@@ -4,7 +4,7 @@ metadata:
   name: meeting
 spec:
   ports:
-    - name: http
+    - name: http-meeting
       port: 80
       targetPort: http
       protocol: TCP
