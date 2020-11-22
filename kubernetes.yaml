@@ -3,7 +3,7 @@ data:
   application.yaml: |-
     spring:
       application:
-        name: voc-meeting-service
+        name: meeting
 
     server:
       port: 8080
@@ -15,7 +15,7 @@ data:
             include: "*"
 kind: ConfigMap
 metadata:
-  name: meeting-configmap-t65d6mbb85
+  name: meeting-configmap-thcfgbk862
 ---
 apiVersion: v1
 kind: Service
@@ -23,7 +23,7 @@ metadata:
   name: meeting
 spec:
   ports:
-  - name: http
+  - name: http-meeting
     port: 80
     protocol: TCP
     targetPort: http
@@ -36,7 +36,7 @@ kind: Deployment
 metadata:
   labels:
     app: meeting
-    version: latest
+    version: COMMIT_SHA
   name: meeting-deployment
 spec:
   replicas: 1
@@ -47,13 +47,13 @@ spec:
     metadata:
       labels:
         app: meeting
-        version: latest
+        version: COMMIT_SHA
     spec:
       containers:
       - envFrom:
         - configMapRef:
-            name: meeting-configmap-t65d6mbb85
-        image: eu.gcr.io/vote-of-confidence-233210/meeting@sha256:e63ba4048ce8450a6343aff8a237af01d34dc8cbbee4bc185856f5ae135924d7
+            name: meeting-configmap-thcfgbk862
+        image: eu.gcr.io/GOOGLE_CLOUD_PROJECT/meeting@COMMIT_SHA
         name: meeting
         ports:
         - containerPort: 8080
@@ -72,5 +72,5 @@ spec:
           items:
           - key: application.yaml
             path: application.yaml
-          name: meeting-configmap-t65d6mbb85
+          name: meeting-configmap-thcfgbk862
         name: config-volume
