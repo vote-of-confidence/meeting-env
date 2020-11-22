@@ -34,7 +34,7 @@ kind: Deployment
 metadata:
   labels:
     app: meeting
-    version: d0716d9
+    version: 1cf65fc
   name: meeting-deployment
 spec:
   replicas: 1
@@ -45,13 +45,13 @@ spec:
     metadata:
       labels:
         app: meeting
-        version: d0716d9
+        version: 1cf65fc
     spec:
       containers:
       - envFrom:
         - configMapRef:
             name: meeting-configmap-8gh874f8b2
-        image: eu.gcr.io/vote-of-confidence-233210/meeting@d0716d9
+        image: eu.gcr.io/vote-of-confidence-233210/meeting@1cf65fc
         name: meeting
         ports:
         - containerPort: 8080
