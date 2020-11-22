@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: meeting
-          image: eu.gcr.io/GOOGLE_CLOUD_PROJECT/meeting@COMMIT_SHA
+          image: eu.gcr.io/GOOGLE_CLOUD_PROJECT/meeting:COMMIT_SHA
           envFrom:
             - configMapRef:
                 name: meeting-configmap
