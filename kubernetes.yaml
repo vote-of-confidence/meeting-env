@@ -1,0 +1,76 @@
+apiVersion: v1
+data:
+  application.yaml: |-
+    spring:
+      application:
+        name: voc-meeting-service
+
+    server:
+      port: 8080
+
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: "*"
+kind: ConfigMap
+metadata:
+  name: meeting-configmap-t65d6mbb85
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meeting
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: meeting
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: meeting
+    version: latest
+  name: meeting-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meeting
+  template:
+    metadata:
+      labels:
+        app: meeting
+        version: latest
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: meeting-configmap-t65d6mbb85
+        image: eu.gcr.io/vote-of-confidence-233210/meeting@sha256:e63ba4048ce8450a6343aff8a237af01d34dc8cbbee4bc185856f5ae135924d7
+        name: meeting
+        ports:
+        - containerPort: 8080
+          name: http
+        resources:
+          requests:
+            cpu: 50m
+        volumeMounts:
+        - mountPath: /etc/deployment/application.yaml
+          name: config-volume
+          readOnly: true
+          subPath: application.yaml
+      volumes:
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: application.yaml
+            path: application.yaml
+          name: meeting-configmap-t65d6mbb85
+        name: config-volume
