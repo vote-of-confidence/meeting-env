@@ -4,10 +4,8 @@ data:
     spring:
       application:
         name: voc-meeting-service
-
     server:
       port: 8080
-
     management:
       endpoints:
         web:
@@ -15,7 +13,7 @@ data:
             include: "*"
 kind: ConfigMap
 metadata:
-  name: meeting-configmap-t65d6mbb85
+  name: meeting-configmap-8gh874f8b2
 ---
 apiVersion: v1
 kind: Service
@@ -36,7 +34,7 @@ kind: Deployment
 metadata:
   labels:
     app: meeting
-    version: latest
+    version: d0716d9
   name: meeting-deployment
 spec:
   replicas: 1
@@ -47,13 +45,13 @@ spec:
     metadata:
       labels:
         app: meeting
-        version: latest
+        version: d0716d9
     spec:
       containers:
       - envFrom:
         - configMapRef:
-            name: meeting-configmap-t65d6mbb85
-        image: eu.gcr.io/vote-of-confidence-233210/meeting@sha256:e63ba4048ce8450a6343aff8a237af01d34dc8cbbee4bc185856f5ae135924d7
+            name: meeting-configmap-8gh874f8b2
+        image: eu.gcr.io/vote-of-confidence-233210/meeting@d0716d9
         name: meeting
         ports:
         - containerPort: 8080
@@ -72,5 +70,5 @@ spec:
           items:
           - key: application.yaml
             path: application.yaml
-          name: meeting-configmap-t65d6mbb85
+          name: meeting-configmap-8gh874f8b2
         name: config-volume
