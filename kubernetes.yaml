@@ -4,10 +4,8 @@ data:
     spring:
       application:
         name: meeting
-
     server:
       port: 8080
-
     management:
       endpoints:
         web:
@@ -15,7 +13,7 @@ data:
             include: "*"
 kind: ConfigMap
 metadata:
-  name: meeting-configmap-thcfgbk862
+  name: meeting-configmap-kb7744f4cb
 ---
 apiVersion: v1
 kind: Service
@@ -36,7 +34,7 @@ kind: Deployment
 metadata:
   labels:
     app: meeting
-    version: COMMIT_SHA
+    version: 1cf65fc
   name: meeting-deployment
 spec:
   replicas: 1
@@ -47,13 +45,13 @@ spec:
     metadata:
       labels:
         app: meeting
-        version: COMMIT_SHA
+        version: 1cf65fc
     spec:
       containers:
       - envFrom:
         - configMapRef:
-            name: meeting-configmap-thcfgbk862
-        image: eu.gcr.io/GOOGLE_CLOUD_PROJECT/meeting@COMMIT_SHA
+            name: meeting-configmap-kb7744f4cb
+        image: eu.gcr.io/vote-of-confidence-233210/meeting@1cf65fc
         name: meeting
         ports:
         - containerPort: 8080
@@ -72,5 +70,5 @@ spec:
           items:
           - key: application.yaml
             path: application.yaml
-          name: meeting-configmap-thcfgbk862
+          name: meeting-configmap-kb7744f4cb
         name: config-volume
