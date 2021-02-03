@@ -22,6 +22,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: meeting-configmap
+            - configMapRef:
+                name: meetingdbsecret
           ports:
             - name: http
               containerPort: 8080
