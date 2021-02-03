@@ -1,12 +1,55 @@
+camunda:
+  admin-user:
+    id: ${CAMUNDA_USER}
+    password: ${CAMUNDA_PASSWORD}
+  bpm:
+    history-level: full
+    generic-properties:
+      properties:
+        historyCleanupBatchWindowStartTime: "00:01"
+        historyCleanupBatchWindowEndTime: "23:59"
+        historyCleanupStrategy: endTimeBased
+    database:
+      type: postgres
+      schema-update: false
 spring:
   application:
-    name: meeting
-
-server:
-  port: 8080
-
+    name: "meetnig"
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    hikari:
+      connection-test-query: SELECT 1
+      minimum-idle: 1
+      maximum-pool-size: 20
+      pool-name: springHikariCP
+      auto-commit: false
+      jdbc-url: ${MEETINGDB_URL}
+      username: ${MEETINGDB_USER}
+      password: ${MEETINGDB_PASSWORD}
+      driver-class-name: org.postgresql.ds.PGSimpleDataSource
+    url: ${MEETINGDB_URL}
+    username: ${MEETINGDB_USER}
+    password: ${MEETINGDB_PASSWORD}
+  liquibase:
+    changeLog: classpath:/db/changelog/db.changelog-master.xml
+    url: ${MEETINGDB_URL}
+    user: ${MEETINGDB_USER}
+    password: ${MEETINGDB_PASSWORD}
+    enabled: true
+    default-schema: ${MEETINGDB_SCHEMA}
+    liquibase-schema: ${MEETINGDB_SCHEMA}
+security:
+  basic:
+    enabled: false
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+  security:
+    enabled: false
+logging:
+  level:
+    root: DEBUG
+    ru.st.com: TRACE
+    org.springframework: DEBUG
+    org.camunda.bpm.springboot: DEBUG
+    org.liquibase: DEBUG
+    com.zaxxer: ERROR
